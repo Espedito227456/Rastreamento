@@ -1,0 +1,43 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-3.0.x"] // Linha adicionada
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  name  String?
+  email String @unique
+}
+
+model Route {
+  id              String   @id @default(cuid()) @map("_id")  // Mapeando para o campo '_id' do MongoDB
+  name            String
+  sourceName      String
+  sourceLat       Float
+  sourceLng       Float
+  destinationName String
+  destinationLat  Float
+  destinationLng  Float
+  distance        Float
+  duration        Float
+  directions      String
+  email           String  // Campo email
+}
+
+
+
+
+type Place {
+  name      String
+  location Coord
+}
+
+type Coord {
+  lat       Float
+  lng       Float
+}
